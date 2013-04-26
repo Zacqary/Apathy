@@ -1,0 +1,10 @@
+.DS_Store
+cgfx2json
+images
+img
+sound-master
+maketz
+*.canvas.js
+*.canvas.html
+*.debug.html
+jslib
