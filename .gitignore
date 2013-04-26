@@ -8,3 +8,4 @@ maketz
 *.canvas.html
 *.debug.html
 jslib
+manifest.yaml
