@@ -1,38 +1,45 @@
-// Make voters more or less apathetic, and then possibly make them active or inactive	
+/*	Voter.deapathize and Voter.apathize
+		Makes the voter up to 25% more or less apathetic, with a chance to turn
+		them active or inactive.
+*/	
 Voter.prototype.deapathize = function deapathize(mult) {
-	if (!tutorial) {
+	if (!tutorial) { // During the tutorial, most game mechanics are temporarily suspended
 		mult = mult || 1;
 		this.apathy -= randomNumber(1,25*mult);
 		if (this.apathy < 0) this.apathy = 0;
-		//console.log("Voter "+this.id+" apathy decreased to "+this.apathy);
+		
 		if (!this.active) {
+			// If the voter is inactive, try and make them active.
+			// The higher their apathy, the harder it is.
 			if (randomNumber(0,100) > this.apathy) {
 				this.active = true;
-				//console.log("Voter "+this.id+" is now active!");
 			}
 		}
 	}
 }
+
 Voter.prototype.apathize = function apathize(mult) {
 	mult = mult || 1;
 	if (this.playerFriend) mult = 1.2;
 	this.apathy += randomNumber(1,25*mult);
 	if (this.apathy > 100) this.apathy = 100;
-	//console.log("Voter "+this.id+" apathy increased to "+this.apathy);
+
 	if (this.active) {
 		if (randomNumber(0,100) < this.apathy*mult) {
 			this.active = false;
-			//console.log("Voter "+this.id+" is now inactive!");
 		}
 	}
 }
 
+/*	Voter.makeFriends
+		Randomly selects 6 friends for an NPC, or 2 friends from each district
+		for the player
+*/
 var NumberOfFriends = 6;
-
 Voter.prototype.makeFriends = function makeFriends(player){
 	targets = [];
 	friends = [];
-	if (!player){
+	if (!player){ //For NPC
 		for(i = 0; i < NumberOfFriends; i++){
 			targets.push(randomNumber(0,ThePeople.length-1));
 		}
@@ -40,14 +47,14 @@ Voter.prototype.makeFriends = function makeFriends(player){
 			friends.push(ThePeople[ targets[i] ]);
 		}
 	}
-	else {
+	else { //For the player
 		for(var i in TheDistricts){
 			me = TheDistricts[i];
 			if (i != 5) {
 				friends.push(me.voters[randomNumber(0,40)]);
 				friends.push(me.voters[randomNumber(60,102)]);
 			}
-			else{
+			else{ //To reduce visual clutter in District 5
 				friends.push(me.voters[randomNumber(0,10)]);
 				friends.push(me.voters[randomNumber(50,60)]);
 			}
@@ -56,21 +63,25 @@ Voter.prototype.makeFriends = function makeFriends(player){
 	this.friends = friends;
 }
 
-//Make reps more or less partisan
+/*	Rep.whip and Rep.dissent
+		Make the rep more or less partisan
+*/		
 Rep.prototype.whip = function whip(mult){
-	if (typeof(mult) === 'undefined') mult = 1;
+	mult = mult || 1;
 	this.partyLine += randomNumber(1,12*mult);
 	if (this.partyLine > 100) this.partyLine = 100;
-	//console.log(this.id+" party line increased to "+this.partyLine);
 }
 
-Rep.prototype.dissent = function dissent(){
-	if (typeof(mult) === 'undefined') mult = 1;
+Rep.prototype.dissent = function dissent(mult){
+	mult = mult || 1;
 	this.partyLine -= randomNumber(1,12*mult);
 	if (this.partyLine < 0) this.partyLine = 0;
-	//console.log(this.id+" party line decreased to "+this.partyLine);
 }
 
+/* 	generateRepSupport
+		Figures out whether a rep supports a particular party position.
+		This gets called in relation to a bill, passing its .party value.
+*/
 function generateRepSupport(party){
 	support = [];
 	for(var i in TheReps){
@@ -87,6 +98,11 @@ function generateRepSupport(party){
 	return support;
 }
 
+/* 	generatePeopleSupport
+		Figures out whether a voter supports a particular bill.
+		This gets called in relation to a bill, passing its three
+		philosophy values.
+*/
 function generatePeopleSupport(collectivist, libertarian, radical){
 	support = [];
 	for(var i in ThePeople){
@@ -121,6 +137,9 @@ function generatePeopleSupport(collectivist, libertarian, radical){
 	return support;
 }
 
+/*	Bill.assignPet
+		Selects 30 random voters and makes this bill their pet issue.
+*/
 Bill.prototype.assignPet = function assignPetIssueToVoters(){
 	pets = 30;
 	noPets = [];

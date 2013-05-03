@@ -1,4 +1,4 @@
-Math.seedrandom();
+// Library of simple, low-level functions
 
 var randomNumber = function randomNumber(lower, upper){
 	var mult = upper - lower;

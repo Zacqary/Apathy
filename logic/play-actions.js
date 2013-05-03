@@ -1,4 +1,4 @@
-/*	Voter.callRep -- Call Representative
+/*	Voter.callRep
 		Attempts to convince this voter's representative to change their position,
 		or solidifies their position if they already agree. This also affects the
 		representative's adherence to the party line.
@@ -94,7 +94,7 @@ Voter.prototype.callRep = function callRep(bill){
 	
 }
 
-/*	Voter.callFriend -- Call Friend
+/*	Voter.callFriend
 		Attempts to convince this voter's friend to change their position,
 		or solidifies their position if they already agree. Success makes
 		the friend less apathetic. Failure makes the voter apathetic.
@@ -156,7 +156,7 @@ Voter.prototype.callFriend = function callFriend(friend, bill){
 	
 }
 
-/*	Voter.rallyFriend -- Rally Friend
+/*	Voter.rallyFriend 
 		Makes the voter's friend less apathetic in an attempt to activate
 		them. Should only be called if the friend is inactive.
 */
@@ -196,12 +196,20 @@ Voter.prototype.evaluateRep = function evaluateRep(){
 
 // ------------------ REP ACTIONS ----------------------
 
+
+/*	Rep.announcePosition
+		Announces the rep's support for bills currently in play.
+		If the player just clicked on their rep, this won't announce changes in
+		support for the player's pet issue. This is to discourage the player from
+		feeling like their actions made a difference.
+*/
 Rep.prototype.announcePosition = function announcePosition() {
-	//console.log("Rep "+this.id+" has announced their positions");
 	for(var i in Bills){
-		if (Bills[i] != ThePlayer.pet) Bills[i].announcedRepSupport[this.id] = Bills[i].repSupport[this.id];
+		if (Bills[i] != ThePlayer.pet) {
+			Bills[i].announcedRepSupport[this.id] = Bills[i].repSupport[this.id];
+		}
 		else {
-			if (lastAction != "rep") {
+			if (lastAction != "rep") { //If the player just called their rep, don't announce a new position
 				Bills[i].announcedRepSupport[this.id] = Bills[i].repSupport[this.id];
 			}
 		}
@@ -211,6 +219,10 @@ Rep.prototype.announcePosition = function announcePosition() {
 	}
 }
 
+/*	Rep.scareTactic
+		Run a scary campaign ad for or against the incumbent rep.
+		There's a 50-50 chance that it will be for or against.
+*/
 Rep.prototype.scareTactic = function scareTactic() {
 	if (randomBool()) {
 		//console.log("Rep "+this.id+" runs a scary campaign ad!");
@@ -226,6 +238,10 @@ Rep.prototype.scareTactic = function scareTactic() {
 	}
 }
 
+/*	scareConstituents
+		Frighten constituents with a campaign ad. More apathetic voters are less
+		informed and more easily swayed.
+*/
 function scareConstituents(people, position){
 	for(var i in people){
 		me = people[i];

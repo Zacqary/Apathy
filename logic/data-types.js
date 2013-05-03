@@ -106,6 +106,9 @@ var Bill = function Bill() {
 
 var namesUsed = [];
 
+/* pickBillName
+		Pick a name for a bill at random. Make sure it hasn't been used before.
+*/
 var pickBillName = function pickBillName(){
 	var unique = false;
 	var name;

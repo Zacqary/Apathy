@@ -33,11 +33,13 @@ var showAdvanced = false;
 
 
 function startGame(){
+	// If there's a custom random seed, use it
 	if ( (randomSeed != undefined) && (randomSeed != "") ) {
 		Math.seedrandom(randomSeed);
 		tutorial = false;
 	}
 	else Math.seedrandom();
+	
 	gameStarted = true;
 	TheReps = [];
 	ThePeople = [];
@@ -59,6 +61,7 @@ function startGame(){
 
 	for(var i in ThePeople) ThePeople[i].makeFriends();
 
+	// Initialize the player
 	ThePeople[616].isPlayer = true;
 	ThePeople[616].makeFriends(true);
 	for(var i in ThePeople[616].friends){
@@ -66,7 +69,6 @@ function startGame(){
 		var polarize = randomNumber(0,32);
 		ThePeople[616].friends[i].polarized = polarize;
 	}
-
 	ThePlayer = ThePeople[616];
 
 	for (i=0;i<12;i++) Bills[i] = new Bill();
