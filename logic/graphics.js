@@ -190,7 +190,7 @@ var Graphics = {
 			draw2D.clear([0.0,0.0,0.2,1.0]);
 			
 			Graphics.writeFont("APATHY",1,520,180+menuFlicker,1,[0.8,0.8,1,1]);
-			Graphics.writeFont("A game by Zacqary Adam Green",0.3,520,250+menuFlicker,1,[0.8,0.8,1,1]);
+			Graphics.writeFont("A game by Zacqary Adam Xeper",0.3,520,250+menuFlicker,1,[0.8,0.8,1,1]);
 			Graphics.writeFont("Featuring music by Andrey Avkhimovich",0.2,520,280+menuFlicker,1,[0.8,0.8,1,1]);
 			
 			Graphics.writeFont("CC0 Public Domain",0.2,520,620+menuFlicker,1,[0.8,0.8,1,1]);
