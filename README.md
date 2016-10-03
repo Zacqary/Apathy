@@ -1,6 +1,10 @@
 Apathy
 ======
 
+![Apathy](splash.jpg)
+
+Hosted version at http://apathy.plankhead.com
+
 Use the Turbulenz SDK to compile. http://biz.turbulenz.com/developers
 
 CC0 PUBLIC DOMAIN
